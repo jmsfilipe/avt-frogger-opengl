@@ -706,6 +706,13 @@ void updateUniforms(){
 	glProgramUniform1fv(p, myLoc, 1, &quadratic);
 }
 
+void StencilFunction(){
+	glEnable(GL_STENCIL_TEST);
+	glClearStencil(0x0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glStencilFunc(GL_ALWAYS, 1, 1);
+	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+}
 
 void renderScene(void) {
 
@@ -718,6 +725,7 @@ void renderScene(void) {
 	switch(camera){
 	case PERSPECTIVE:
 		Lib::vsml->lookAt(0, 35, -45, 0,0,0, 0,0,1);
+		StencilFunction();
 		break;
 	case ORTHO:
 		Lib::vsml->lookAt(0, 10, 0, 0,0,0, 0,0,1);
@@ -746,11 +754,10 @@ void renderScene(void) {
 
 	updateStaticScenario();
 
+	glClear(GL_DEPTH_BUFFER_BIT); // inicializa o z_buffer
+	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+	glStencilFunc(GL_EQUAL, 1, 1);
 
-
-	//glClear(GL_DEPTH_BUFFER_BIT); // inicializa o z_buffer
-	//glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); 
-	//glStencilFunc(GL_EQUAL, 1, 1);
 	updateObjects();
 
 	 for (int i=0; i<MAX_PARTICULAS; i++)
@@ -805,10 +812,12 @@ void reshape(int w, int h) {
 
 	case ORTHO:
 		Lib::vsml->ortho(-30,30,-30,30,-30,30);
+		glDisable(GL_STENCIL_TEST);
 		break;
 
 	case MOBILE:
 		Lib::vsml->perspective(45.0f, ratio, 1.0f, 100.0f);
+		glDisable(GL_STENCIL_TEST);
 		break;
 
 	}
