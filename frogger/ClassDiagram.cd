@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Bus" Collapsed="true" HideInheritanceLine="true">
+    <Position X="11.75" Y="8.25" Width="1.5" />
+    <InheritanceLine Type="DynamicObject" IsHidden="true" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAACAAAIAAAAAIAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Bus.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Car">
+    <Position X="13.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAQAAACAIAIAAAAEAAgAAAAAAAAACAAEAAI=</HashCode>
+      <FileName>Car.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DynamicObject">
+    <Position X="14" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAkAAAAAAAAAAAAAAAAAAAAQAAABBAAIEAAEAAA=</HashCode>
+      <FileName>DynamicObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entity">
+    <Position X="11.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Entity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Frog">
+    <Position X="17.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAACAIAIAAAABAAgAAAAAAAAACEAEgAA=</HashCode>
+      <FileName>Frog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObject">
+    <Position X="11.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAACAAQAQAAAAAAAAAAAAAAAAAAAAAAEAIEIAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lib">
+    <Position X="13.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Lib.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="River">
+    <Position X="11" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAIAAIAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>River.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Riverside">
+    <Position X="13.25" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAEAIAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Riverside.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Road">
+    <Position X="15.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Road.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Roadside">
+    <Position X="8.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAgEAAA=</HashCode>
+      <FileName>Roadside.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StaticObject">
+    <Position X="9.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAgAgIAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>StaticObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimberLog">
+    <Position X="11.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAACACAIAAAAAAAAAAAAEBAAAAAAEAAA=</HashCode>
+      <FileName>TimberLog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Turtle">
+    <Position X="15.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAIAAAAAAgAAAAAAAAAAACAEAAA=</HashCode>
+      <FileName>Turtle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSLogLib" Collapsed="true">
+    <Position X="15.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAABZRAABAAAAAAAAEAIAAAAAAAAgAAAAAAAQAAIA=</HashCode>
+      <FileName>vsLogLib.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSMathLib" Collapsed="true">
+    <Position X="15.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RJAAAgCQIAAQxCAJwEBZRAUOEgEAQgZQYBEAAIQCpAI=</HashCode>
+      <FileName>vsMathLib.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSResourceLib" Collapsed="true">
+    <Position X="13.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAEMEFBAAAAEIAQBgAQAQkAAQAAwAAkBAYAkA=</HashCode>
+      <FileName>vsResourceLib.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSResSurfRevLib" Collapsed="true">
+    <Position X="13.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAgAAAAIAAgAAgEAAAAAAAQAIABAAAQABJMIBYAAA=</HashCode>
+      <FileName>vsResSurfRevLib.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSShaderLib" Collapsed="true">
+    <Position X="15.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEIQgGBwABIBAAEUiBBQAQgAAAQIgICQQwAAAAAIAA=</HashCode>
+      <FileName>vsShaderLib.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
