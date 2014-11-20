@@ -70,7 +70,7 @@ void setupFontShader(){
 
 
 /////////////////////////////////////////////////////////////////////// SCENE
-void cenas(){
+void updateBillboardAngle(){
 	float objToCam[3];
 	float objToCamProj[3];
 	objToCamProj[0] = frog->getPosition()[0] - tree->getPosition()[0];;
@@ -116,7 +116,7 @@ void cenas(){
 
 void updateStaticScenario(){
 	//if(camera == MOBILE)
-	cenas();
+	updateBillboardAngle();
 
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
 	tree->update(angleCosine, angleCosine2, upaux[0], upaux[1], upaux[2], upaux2[0], upaux2[1], upaux2[2]);
@@ -728,9 +728,11 @@ void renderScene(void) {
 		StencilFunction();
 		break;
 	case ORTHO:
+		glDisable(GL_STENCIL_TEST);
 		Lib::vsml->lookAt(0, 10, 0, 0,0,0, 0,0,1);
 		break;
 	case MOBILE:
+		glDisable(GL_STENCIL_TEST);
 		cameraPosition[0] = frog->getPosition()[0]+0.25;
 		cameraPosition[1] = 4.0f;
 		cameraPosition[2] =  frog->getPosition()[2]-2;
@@ -767,6 +769,27 @@ void renderScene(void) {
 			particles[i].update();
 		}
 	}
+
+	 		if(camera == MOBILE && flareOn){
+
+			float fy = 1.0 - lookat_Y / 10 - 2.5;
+
+			if(fy > 0) {
+
+				float cosine = abs(fy / sqrt(fy*fy + 12.25));
+
+				Lib::vsml->pushMatrix(VSMathLib::PROJECTION);
+				Lib::vsml->loadIdentity(VSMathLib::PROJECTION);
+				Lib::vsml->ortho(0, glutGet(GLUT_WINDOW_WIDTH), 0, glutGet(GLUT_WINDOW_HEIGHT), -1, 1);
+				Lib::vsml->loadIdentity(VSMathLib::VIEW);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+				glBlendFunc(GL_ONE,GL_ZERO);
+				flare->FLARE_render(cosine);
+				glDisable(GL_BLEND);
+				Lib::vsml->popMatrix(VSMathLib::PROJECTION);
+			}
+		}
 
 	glUseProgram(shaderF.getProgramIndex());
 
@@ -812,11 +835,15 @@ void reshape(int w, int h) {
 
 	case ORTHO:
 		Lib::vsml->ortho(-30,30,-30,30,-30,30);
+		glClearStencil(0);
+		glClear(GL_STENCIL_BUFFER_BIT);
 		glDisable(GL_STENCIL_TEST);
 		break;
 
 	case MOBILE:
 		Lib::vsml->perspective(45.0f, ratio, 1.0f, 100.0f);
+		glClearStencil(0);
+		glClear(GL_STENCIL_BUFFER_BIT);
 		glDisable(GL_STENCIL_TEST);
 		break;
 
@@ -935,6 +962,10 @@ void processKeys(unsigned char key, int xx, int yy)
 	case 'I':
 		initParticles();
 		break;
+	case 'y':
+	case 'Y':
+		flareOn = !flareOn;
+		break;
 	}
 
 	//  uncomment this if not using an idle func
@@ -974,14 +1005,19 @@ void keyboardUp(unsigned char key, int xx, int yy)
 //
 // Mouse Events
 //
+// Mouse handling.
+int     nButton = 0;
+int     xMouse = 0, yMouse = 0;
+
 void mouseButton(int button, int state, int xx, int yy)
 {
 	// start tracking the mouse
 	if (state == GLUT_DOWN)  {
 		startX = xx;
 		startY = yy;
-		if (button == GLUT_LEFT_BUTTON)
+		if (button == GLUT_LEFT_BUTTON){
 			tracking = 1;
+			camera_moving = true;}
 		else if (button == GLUT_RIGHT_BUTTON)
 			tracking = 2;
 	}
@@ -989,6 +1025,7 @@ void mouseButton(int button, int state, int xx, int yy)
 	//stop tracking the mouse
 	else if (state == GLUT_UP) {
 		if (tracking == 1) {
+			camera_moving = false;
 			alpha -= (xx - startX);
 			beta += (yy - startY);
 		}
@@ -1010,6 +1047,13 @@ void mouseMove(int xx, int yy)
 
 	deltaX =  - xx + startX;
 	deltaY =    yy - startY;
+
+		// left mouse button: move camera
+	if (camera_moving) {
+		lookat_X = deltaX;
+		lookat_Y = deltaY;
+		flare->FLARE_position(xx, yy);
+	}
 
 	// left mouse button: move camera
 	if (tracking == 1) {
@@ -1034,6 +1078,7 @@ void mouseMove(int xx, int yy)
 
 		frog->move(-xx/30.0f, 0, -yy/30.0f);
 	}
+
 
 }
 
@@ -1172,7 +1217,7 @@ void initShapes(){
 	upperRiverside->draw();
 
 	testParticle = Particle(true);
-
+	flare = new Flare();
 }
 
 void initFonts(){
@@ -1218,7 +1263,10 @@ int main(int argc, char* argv[])
 {
 	init(argc, argv);
 	glutTimerFunc(33,iterate,1);
+
 	glutMainLoop();	
+
+
 	PressEnterToContinue();
 }
 

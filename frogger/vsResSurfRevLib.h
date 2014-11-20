@@ -53,6 +53,7 @@ public:
 	void createPawn();
 	void createCube();
 	void createBillboard();
+	void createFlare(int x, int y, int width, int height, unsigned int colour);
 
 	virtual void clone(VSResourceLib *res);
 	/** implementation of the superclass abstract method

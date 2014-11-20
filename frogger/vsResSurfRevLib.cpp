@@ -617,6 +617,89 @@ unsigned int faceIndex[] = {
 	mMyMesh.mat.shininess = 100.0f;
 }
 
+
+void VSResSurfRevLib::createFlare(int x, int y, int width, int height, unsigned int colour){
+
+	int verticeCount = 6;
+int faceCount = 1;
+
+float vertices[] = {
+	x, y, 0.0f, 1.0f,
+	x+width, y, 0.0f, 1.0f,
+	x+width, y+height, 0.0f, 1.0f,
+	x, y+height, 0.0f, 1.0f,
+};
+
+float normals[] = {
+	0.0f, 0.0f, -1.0f,
+	0.0f, 0.0f, -1.0f,
+	0.0f, 0.0f, -1.0f,
+	0.0f, 0.0f, -1.0f,
+};
+
+float texCoords[] = {
+	0.0f, 0.0f,
+	1.0f, 0.0f, 
+	1.0f, 1.0f,
+	0.0f, 1.0f,
+};
+
+mMyMesh.numIndexes = 6;
+
+unsigned int faceIndex[] = {
+	0,1,2,0,2,3
+};
+
+		glGenVertexArrays(1, &mMyMesh.vao);
+	glBindVertexArray(mMyMesh.vao);
+
+	GLuint buffers[4];
+	glGenBuffers(4, buffers);
+
+//vertex coordinates buffer
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(VSShaderLib::VERTEX_COORD_ATTRIB);
+	glVertexAttribPointer(VSShaderLib::VERTEX_COORD_ATTRIB, 4, GL_FLOAT, 0, 0, 0);
+
+//normals buffer
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[2]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(normals), normals, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(VSShaderLib::NORMAL_ATTRIB);
+	glVertexAttribPointer(VSShaderLib::NORMAL_ATTRIB, 3, GL_FLOAT, 0, 0, 0);
+
+	//texture coordinates buffer
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(VSShaderLib::TEXTURE_COORD_ATTRIB);
+	glVertexAttribPointer(VSShaderLib::TEXTURE_COORD_ATTRIB, 2, GL_FLOAT, 0, 0, 0);
+
+	//index buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[3]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(faceIndex), faceIndex, GL_STATIC_DRAW);
+
+// unbind the VAO
+	glBindVertexArray(0);
+
+		mMyMesh.type = GL_TRIANGLES;
+	mMyMesh.mat.ambient[0] = colour >> 16 & 0xff;
+	mMyMesh.mat.ambient[1] = colour >> 8 & 0xff;
+	mMyMesh.mat.ambient[2] = colour >> 0 & 0xfff;
+	mMyMesh.mat.ambient[3] = colour >> 24 & 0xfff;
+	
+	mMyMesh.mat.diffuse[0] = colour >> 16 & 0xff;
+	mMyMesh.mat.diffuse[1] = colour >> 8 & 0xff;
+	mMyMesh.mat.diffuse[2] = colour >> 0 & 0xfff;
+	mMyMesh.mat.diffuse[3] = colour >> 24 & 0xfff;
+
+	mMyMesh.mat.specular[0] = colour >> 16 & 0xff;
+	mMyMesh.mat.specular[1] = colour >> 8 & 0xff;
+	mMyMesh.mat.specular[2] = colour >> 0 & 0xfff;
+	mMyMesh.mat.specular[3] = colour >> 24 & 0xfff;
+
+	mMyMesh.mat.shininess = 100.0f;
+}
+
 void 
 VSResSurfRevLib::render () {
 
@@ -647,8 +730,6 @@ VSResSurfRevLib::render () {
 	}
 
 }
-
-
 
 
 void 

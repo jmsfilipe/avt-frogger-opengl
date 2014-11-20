@@ -30,6 +30,7 @@ unsigned int FrameCount = 0;
 #include "LightSource.h"
 #include "vsFontLib.h"
 #include "Particle.h"
+#include "Flare.h"
 
 #define OBJS_PER_ROW 3
 #define frand()			((float)rand()/RAND_MAX)
@@ -122,5 +123,8 @@ float upaux2[3] = {0,0,0};
 
 Particle particles[MAX_PARTICULAS];
 Particle testParticle;
-
-
+Flare *flare;
+bool camera_moving = false;
+float lookat_X;
+float lookat_Y;
+bool flareOn = false;

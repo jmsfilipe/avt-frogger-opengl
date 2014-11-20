@@ -62,7 +62,7 @@ for ( int light = 0; light < MaxLights; ++light) {
         float attenuation = 1.0;
         // for local lights, compute per-fragment direction, halfVector, and attenuation
 
-if (Lights[light].isLocal) {
+if (Lights[light].isLocal == 1) {
 
             lightDirection = l[light];
             float lightDistance = length(lightDirection);
@@ -74,7 +74,7 @@ if (Lights[light].isLocal) {
 				+ Lights[light].quadraticAttenuation * lightDistance
 				* lightDistance);
 				
-            if (Lights[light].isSpot) {
+            if (Lights[light].isSpot == 1) {
                 float spotCos = dot(lightDirection,-Lights[light].coneDirection);
 				
                 if (spotCos < Lights[light].spotCosCutoff)
