@@ -728,10 +728,14 @@ void renderScene(void) {
 		StencilFunction();
 		break;
 	case ORTHO:
+			glClearStencil(0);
+		glClear(GL_STENCIL_BUFFER_BIT);
 		glDisable(GL_STENCIL_TEST);
 		Lib::vsml->lookAt(0, 10, 0, 0,0,0, 0,0,1);
 		break;
 	case MOBILE:
+		glClearStencil(0);
+		glClear(GL_STENCIL_BUFFER_BIT);
 		glDisable(GL_STENCIL_TEST);
 		cameraPosition[0] = frog->getPosition()[0]+0.25;
 		cameraPosition[1] = 4.0f;
@@ -756,7 +760,7 @@ void renderScene(void) {
 
 	updateStaticScenario();
 
-	glClear(GL_DEPTH_BUFFER_BIT); // inicializa o z_buffer
+	//glClear(GL_DEPTH_BUFFER_BIT); // inicializa o z_buffer
 	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 	glStencilFunc(GL_EQUAL, 1, 1);
 
@@ -834,17 +838,19 @@ void reshape(int w, int h) {
 		break;
 
 	case ORTHO:
-		Lib::vsml->ortho(-30,30,-30,30,-30,30);
-		glClearStencil(0);
+				glClearStencil(0);
 		glClear(GL_STENCIL_BUFFER_BIT);
 		glDisable(GL_STENCIL_TEST);
+		Lib::vsml->ortho(-30,30,-30,30,-30,30);
+
 		break;
 
 	case MOBILE:
-		Lib::vsml->perspective(45.0f, ratio, 1.0f, 100.0f);
-		glClearStencil(0);
+				glClearStencil(0);
 		glClear(GL_STENCIL_BUFFER_BIT);
 		glDisable(GL_STENCIL_TEST);
+		Lib::vsml->perspective(45.0f, ratio, 1.0f, 100.0f);
+
 		break;
 
 	}
