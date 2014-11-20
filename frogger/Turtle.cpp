@@ -44,7 +44,7 @@ void Turtle::draw() {
 
 void Turtle::updateBoundingBox(){
 	_box.setMin(_position[0], _position[1]-1, _position[2]-0.5);
-	_box.setMax(_position[0]+4, _position[1]+1, _position[2]+5.3);
+	_box.setMax(_position[0]+5, _position[1]+1, _position[2]+5.5);
 }
 
 void Turtle::update(){
@@ -59,6 +59,7 @@ void Turtle::update(){
 
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
 	Lib::vsml->translate(_position[0], _position[1], _position[2]);
+	Lib::vsml->translate(RIVER_ROW_WIDTH/2.0, -0.8, RIVER_ROW_WIDTH/2.0);
     getPart(0)->render();
 	Lib::vsml->popMatrix(VSMathLib::MODEL);
 }

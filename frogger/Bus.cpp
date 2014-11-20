@@ -113,7 +113,7 @@ void Bus::update() {
 
 	//chassis
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
-	Lib::vsml->translate((BUS_LENGTH - BUS_BODYLENGTH)/2.0, 0.8, 0.0);
+	Lib::vsml->translate((BUS_LENGTH - BUS_BODYLENGTH)/2.0, 0.5, 0.0);
 	Lib::vsml->scale(BUS_BODYLENGTH, BUS_HEIGHT, BUS_WIDTH);
     _body->render();
 	Lib::vsml->popMatrix(VSMathLib::MODEL);
@@ -121,7 +121,7 @@ void Bus::update() {
 	//front window
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
 	Lib::vsml->translate(BUS_HEIGHT/2.0, 
-		(BUS_HEIGHT/2.0) + 0.8, 
+		(BUS_HEIGHT/2.0) + 0.6, 
 		MARGINAL_SPACE + ((BUS_WIDTH - 2*MARGINAL_SPACE)/2.0));
 	Lib::vsml->rotate(90.0, 1,0,0);
 	_frontwindow->render();
@@ -129,7 +129,7 @@ void Bus::update() {
 
 	//front wheels
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
-	Lib::vsml->translate((BUS_HEIGHT/6.0) + (BUS_LENGTH/4.0f), 
+	Lib::vsml->translate(BUS_HEIGHT/6.0 + (BUS_HEIGHT/2.0) + 0.2, 
 		BUS_HEIGHT/6.0, 
 		MARGINAL_SPACE + ((BUS_WIDTH - 2*MARGINAL_SPACE)/2.0));
     Lib::vsml->rotate(90.0, 1,0,0);
@@ -139,7 +139,7 @@ void Bus::update() {
 	//back window
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
 	Lib::vsml->translate((BUS_HEIGHT/2.0) + BUS_BODYLENGTH, 
-		(BUS_HEIGHT/2.0) + 0.8, 
+		(BUS_HEIGHT/2.0) + 0.5, 
 		MARGINAL_SPACE + ((BUS_WIDTH - 2*MARGINAL_SPACE)/2.0));
 	Lib::vsml->rotate(90.0, 1,0,0);
 	_frontwindow->render();
@@ -147,7 +147,7 @@ void Bus::update() {
 
 	//back wheels
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
-	Lib::vsml->translate((BUS_HEIGHT/6.0) + (3.0 * BUS_LENGTH/4.0f), 
+	Lib::vsml->translate(BUS_HEIGHT/6.0 + (BUS_HEIGHT/2.0) + BUS_BODYLENGTH-0.2, 
 		BUS_HEIGHT/6.0, 
 		MARGINAL_SPACE + ((BUS_WIDTH - 2*MARGINAL_SPACE)/2.0));
     Lib::vsml->rotate(90.0, 1, 0, 0);
