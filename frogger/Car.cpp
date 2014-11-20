@@ -130,7 +130,7 @@ void Car::update(){
 	Lib::vsml->translate(_position[0], _position[1], _position[2]);
 	
     Lib::vsml->pushMatrix(VSMathLib::MODEL);
-	Lib::vsml->translate(0, 0, 0);
+	Lib::vsml->translate(0, 1, 0);
     Lib::vsml->scale(CAR_LENGTH,2,CAR_WIDTH);
 	_carChassis->render();
 	Lib::vsml->popMatrix(VSMathLib::MODEL);
@@ -142,15 +142,15 @@ void Car::update(){
 	Lib::vsml->popMatrix(VSMathLib::MODEL);
 
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
-	Lib::vsml->translate(3*CAR_LENGTH/4.0f, 0, CAR_WIDTH/2.0f);
-    Lib::vsml->scale(1, 1, 1.2);
+	Lib::vsml->translate(3*CAR_LENGTH/4.0f, 0.6, CAR_WIDTH/2.0f);
+    Lib::vsml->scale(1, 1, 1.1);
     Lib::vsml->rotate(90.0, 1, 0, 0);
 	_wheels1->render();
 	Lib::vsml->popMatrix(VSMathLib::MODEL);
 
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
-	Lib::vsml->translate(1*CAR_LENGTH/4.0f, 0, CAR_WIDTH/2.0f);
-    Lib::vsml->scale(1, 1, 1.2);
+	Lib::vsml->translate(1*CAR_LENGTH/4.0f, 0.6, CAR_WIDTH/2.0f);
+    Lib::vsml->scale(1, 1, 1.1);
     Lib::vsml->rotate(90.0, 1, 0, 0);
 	_wheels2->render();
 	Lib::vsml->popMatrix(VSMathLib::MODEL);

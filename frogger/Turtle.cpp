@@ -31,8 +31,7 @@ void Turtle::draw() {
 
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
 	Lib::vsml->translate(_position[0], _position[1], _position[2]);
-    getPart(0)->createCube();
-	getPart(0)->createCylinder(2.0, RIVER_ROW_WIDTH/2.0, 10);
+	getPart(0)->createCylinder(2.0, RIVER_ROW_WIDTH/2.0, 15);
 	getPart(0)->setMaterialBlockName("Materials");
 	getPart(0)->setColor(VSResourceLib::DIFFUSE, _diffColor);
 	getPart(0)->setColor(VSResourceLib::AMBIENT, _ambColor);

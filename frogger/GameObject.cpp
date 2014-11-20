@@ -78,6 +78,23 @@ void GameObject::estimateColors(float *color) {
     _specColor[3] = color[3];
 }
 
+void GameObject::estimateColors(float *color, float *amb, float *diff, float *spec) {
+	amb[R] = color[0];
+	amb[G] = color[1];
+	amb[B] = color[2];
+	amb[A] = color[3];
+
+	diff[R] = color[0] * 1.1;
+	diff[G] = color[1] * 1.1;
+	diff[B] = color[2] * 1.1;
+	diff[A] = color[3];
+
+	spec[0] = color[0] * 1.25;
+    spec[1] = color[1] * 1.25;
+    spec[2] = color[2] * 1.25;
+    spec[3] = color[3];
+}
+
 
 void GameObject::setBaseColor(int component, float *color) {
     switch (component)

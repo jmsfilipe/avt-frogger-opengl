@@ -34,6 +34,7 @@ public:
     virtual void draw();
 
 	void estimateColors(float *color);
+	void estimateColors(float *color, float *amb, float *diff, float *spec);
     void setBaseColor(int component, float *color);
     void setShininess(float shine);
 
