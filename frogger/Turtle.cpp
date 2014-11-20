@@ -4,19 +4,11 @@
 #include "Lib.h"
 
 Turtle::Turtle(float* speed, int row, int direction) : DynamicObject(speed, row, direction, 1){
-    float colorComponents[N_COMPONENTS][RGBA] = {
-        {2.0/255.0, 79.0/255.0, 17.0/255.0, 1.0}, //ambient component
-        {2.2/255.0, 87.0/255.0, 19.0/255.0, 1.0}, //dffuse component
-        {2.4/255.0, 95.0/255.0, 21.0/255.0, 1.0} //specular component
-    };
+    float bodyColor[RGBA] = {2.0/255.0, 79.0/255.0, 17.0/255.0, 1.0};
     float shininess = 9.0;
 
-    setBaseColor(AMBIENT_COMP, colorComponents[AMBIENT_COMP]);
-    setBaseColor(DIFFUSE_COMP, colorComponents[DIFFUSE_COMP]);
-    setBaseColor(SPECULAR_COMP, colorComponents[SPECULAR_COMP]);
+	estimateColors(bodyColor);
     setShininess(shininess);
-
-	
 }
 
 Turtle::~Turtle(){
@@ -40,7 +32,8 @@ void Turtle::draw() {
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
 	Lib::vsml->translate(_position[0], _position[1], _position[2]);
     getPart(0)->createCube();
-	getPart(0)->setMaterialBlockName("Materials");;
+	getPart(0)->createCylinder(2.0, RIVER_ROW_WIDTH/2.0, 10);
+	getPart(0)->setMaterialBlockName("Materials");
 	getPart(0)->setColor(VSResourceLib::DIFFUSE, _diffColor);
 	getPart(0)->setColor(VSResourceLib::AMBIENT, _ambColor);
     getPart(0)->setColor(VSResourceLib::SPECULAR, _specColor);
@@ -67,7 +60,6 @@ void Turtle::update(){
 
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
 	Lib::vsml->translate(_position[0], _position[1], _position[2]);
-	Lib::vsml->scale(4, 2, 4.8);
     getPart(0)->render();
 	Lib::vsml->popMatrix(VSMathLib::MODEL);
 }

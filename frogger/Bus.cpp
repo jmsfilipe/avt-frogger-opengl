@@ -4,18 +4,11 @@
 #include "Lib.h"
 
 Bus::Bus(float* speed, int row, int direction) : DynamicObject(speed, row, direction, 1) {
-    float colorComponents[N_COMPONENTS][RGBA] = {
-        {130.0/255.0, 0, 0, 1.0}, //ambient component
-        {237.0/255.0, 36.0/255.0, 36.0/255.0, 1.0}, //dffuse component
-        {255.0/255.0, 36.0/255.0, 36.0/255.0, 1.0} //specular component
-    };
+    float bodyColor[RGBA] = {130.0/255.0, 0, 0, 1.0};
     float shininess = 100;
 
-    setBaseColor(AMBIENT_COMP, colorComponents[AMBIENT_COMP]);
-    setBaseColor(DIFFUSE_COMP, colorComponents[DIFFUSE_COMP]);
-    setBaseColor(SPECULAR_COMP, colorComponents[SPECULAR_COMP]);
+	estimateColors(bodyColor);
     setShininess(shininess);
-
 }
 
 Bus::~Bus() {

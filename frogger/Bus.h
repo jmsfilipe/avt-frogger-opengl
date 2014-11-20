@@ -3,6 +3,9 @@
 #include "DynamicObject.h"
 
 class Bus : public DynamicObject {
+	VSResSurfRevLib *_body, 
+		*_frontwindow, *_backwindow, 
+		*_frontwheels, *_backwheels; 
 public:
 	Bus(float *speed, int row, int direction);
 	~Bus();

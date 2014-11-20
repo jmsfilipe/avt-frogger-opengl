@@ -61,6 +61,24 @@ void GameObject::draw() {
     return;
 }
 
+void GameObject::estimateColors(float *color) {
+	_ambColor[0] = color[0];
+    _ambColor[1] = color[1];
+    _ambColor[2] = color[2];
+    _ambColor[3] = color[3];
+
+	_diffColor[0] = color[0] * 1.1;
+    _diffColor[1] = color[1] * 1.1;
+    _diffColor[2] = color[2] * 1.1;
+    _diffColor[3] = color[3];
+
+	_specColor[0] = color[0] * 1.25;
+    _specColor[1] = color[1] * 1.25;
+    _specColor[2] = color[2] * 1.25;
+    _specColor[3] = color[3];
+}
+
+
 void GameObject::setBaseColor(int component, float *color) {
     switch (component)
     {
