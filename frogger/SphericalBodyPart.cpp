@@ -4,11 +4,6 @@ SphericalBodyPart::SphericalBodyPart(float *color, float shininess,
                                      float *size, float *pos, float *rot) : 
 BodyPart(color, shininess, size, pos, rot) { }
 
-SphericalBodyPart::SphericalBodyPart(float *ambColor, float *diffColor,
-                                     float *specColor, float shininess,
-                                     float *size, float *pos, float *rot) : 
-BodyPart(ambColor, diffColor, specColor, shininess, size, pos, rot) { }
-
 SphericalBodyPart::~SphericalBodyPart(void) {}
 
 float SphericalBodyPart::getRadius() {

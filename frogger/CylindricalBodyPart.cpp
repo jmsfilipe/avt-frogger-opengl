@@ -5,11 +5,6 @@ CylindricalBodyPart::CylindricalBodyPart(float *color, float shininess,
                              float *size, float *pos, float *rot) : 
     BodyPart(color, shininess, size, pos, rot) { }
 
-CylindricalBodyPart::CylindricalBodyPart(float *ambColor, float *diffColor, 
-                             float *specColor, float shininess, 
-                             float *size, float *pos, float *rot) : 
-    BodyPart(ambColor, diffColor, specColor, shininess, size, pos, rot) { }
-
 
 CylindricalBodyPart::~CylindricalBodyPart(void) {}
 
@@ -25,6 +20,8 @@ void CylindricalBodyPart::update() {
     Lib::vsml->translate(getPosition(X), getPosition(Y), getPosition(Z));
     Lib::vsml->rotate(getRotation(ANGLE), getRotation(AX), getRotation(AY), getRotation(AZ));
     //Lib::vsml->scale(getSize(Z), getSize(Z), getSize(Z)); //makes no sense for cylinders, just alter the radius or height
+    Lib::vsml->translate(0.0, 0.0, 0.0);
     getSurfRev()->render();
 	Lib::vsml->popMatrix(VSMathLib::MODEL);
 }
+

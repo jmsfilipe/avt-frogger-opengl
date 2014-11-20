@@ -70,57 +70,8 @@ void setupFontShader(){
 
 
 /////////////////////////////////////////////////////////////////////// SCENE
-void updateBillboardAngle(){
-	float objToCam[3];
-	float objToCamProj[3];
-	objToCamProj[0] = frog->getPosition()[0] - tree->getPosition()[0];;
-	objToCamProj[1] = 0;
-	objToCamProj[2] = frog->getPosition()[2] -  tree->getPosition()[2];
-
-	Lib::vsml->normalize(objToCamProj);
-
-	Lib::vsml->crossProduct(lookat,objToCamProj, upaux);
-
-	angleCosine = Lib::vsml->dotProduct(lookat, objToCamProj);
-
-	if ((angleCosine < 0.99990) && (angleCosine > -0.9999))
-      angleCosine = acos(angleCosine)*180.0/3.1415; 
-	/*
-
-	objToCam[0] = frog->getPosition()[0] - tree->getPosition()[0];
-	objToCam[1] = frog->getPosition()[1] -  tree->getPosition()[1];
-	objToCam[2] = frog->getPosition()[2] -  tree->getPosition()[2];
-
-
-	Lib::vsml->normalize(objToCam);
-
-	angleCosine2 =  Lib::vsml->dotProduct(objToCamProj,objToCam);
-	upaux2[0] = 1;
-	upaux2[1] = 0;
-	upaux2[2] = 0;
-
-	if ((angleCosine2 < 0.99990) && (angleCosine2 > -0.9999)) {
-		if (objToCam[1] < 0){
-			 angleCosine2 = acos(angleCosine2)*180.0/3.14;
-			 upaux2[0] = 1;
-		}
-		else{
-			angleCosine2 = acos(angleCosine2)*180.0/3.14;
-			upaux2[0] = -1;
-		}
-	}
-	else
-		angleCosine2 = 0;
-		*/
-}
 
 void updateStaticScenario(){
-	//if(camera == MOBILE)
-	updateBillboardAngle();
-
-	Lib::vsml->pushMatrix(VSMathLib::MODEL);
-	tree->update(angleCosine, angleCosine2, upaux[0], upaux[1], upaux[2], upaux2[0], upaux2[1], upaux2[2]);
-	Lib::vsml->popMatrix(VSMathLib::MODEL);
 
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
 	bottomRoadside->update();
@@ -137,11 +88,9 @@ void updateStaticScenario(){
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
 	upperRiverside->update();
 	Lib::vsml->popMatrix(VSMathLib::MODEL);
-
 }
 
 void drawTimberlogs(int row, int direction){
-	int r;
 	float f;
 	float speed[3];
 	int place;
@@ -167,8 +116,6 @@ void drawTimberlogs(int row, int direction){
 
 	for (int i = 0; i < OBJS_PER_ROW; i++){
 		timberlogs->at(place*OBJS_PER_ROW + i) = new TimberLog(speed, row, direction);
-		r = Lib::random(5,10);
-		timberlogs->at(place*OBJS_PER_ROW + i)->setHeight(r);
 		timberlogs->at(place*OBJS_PER_ROW + i)->draw();
 	}
 
@@ -706,14 +653,6 @@ void updateUniforms(){
 	glProgramUniform1fv(p, myLoc, 1, &quadratic);
 }
 
-void StencilFunction(){
-	glEnable(GL_STENCIL_TEST);
-	glClearStencil(0x0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	glStencilFunc(GL_ALWAYS, 1, 1);
-	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-}
-
 void renderScene(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT  | GL_STENCIL_BUFFER_BIT);
@@ -725,24 +664,13 @@ void renderScene(void) {
 	switch(camera){
 	case PERSPECTIVE:
 		Lib::vsml->lookAt(0, 35, -45, 0,0,0, 0,0,1);
-		StencilFunction();
 		break;
 	case ORTHO:
-			glClearStencil(0);
-		glClear(GL_STENCIL_BUFFER_BIT);
-		glDisable(GL_STENCIL_TEST);
 		Lib::vsml->lookAt(0, 10, 0, 0,0,0, 0,0,1);
 		break;
 	case MOBILE:
-		glClearStencil(0);
-		glClear(GL_STENCIL_BUFFER_BIT);
-		glDisable(GL_STENCIL_TEST);
-		cameraPosition[0] = frog->getPosition()[0]+0.25;
-		cameraPosition[1] = 4.0f;
-		cameraPosition[2] =  frog->getPosition()[2]-2;
-
-		Lib::vsml->lookAt(cameraPosition[0], cameraPosition[1],cameraPosition[2],
-			frog->getPosition()[0]+camX, frog->getPosition()[1]+camY,  frog->getPosition()[2] + 5+camZ,
+		Lib::vsml->lookAt(frog->getPosition()[0]+0.25, 4.0f, frog->getPosition()[2]-2,
+			frog->getPosition()[0]+camX,  frog->getPosition()[1]+camY,  frog->getPosition()[2] + 5+camZ,
 			0.0f, 1.0f,  0.0f);
 		break;
 	}
@@ -752,48 +680,14 @@ void renderScene(void) {
 	// use our shader
 	glUseProgram(shader.getProgramIndex());
 
-	//glStencilFunc(GL_ALWAYS, 1, 1);
-	//glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-
+	glStencilFunc(GL_ALWAYS, 1, 1);
+	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
 	updateStaticScenario();
 
-	//glClear(GL_DEPTH_BUFFER_BIT); // inicializa o z_buffer
-	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+	glClear(GL_DEPTH_BUFFER_BIT); // inicializa o z_buffer
+	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); 
 	glStencilFunc(GL_EQUAL, 1, 1);
-
 	updateObjects();
-
-	 for (int i=0; i<MAX_PARTICULAS; i++)
-	{
-		if(particles[i].life > 0.0f) /* só desenha as que ainda estão vivas */
-		{
-			particles[i].update();
-		}
-	}
-
-	 		if(camera == MOBILE && flareOn){
-
-			float fy = 1.0 - lookat_Y / 10 - 2.5;
-
-			if(fy > 0) {
-
-				float cosine = abs(fy / sqrt(fy*fy + 12.25));
-
-				Lib::vsml->pushMatrix(VSMathLib::PROJECTION);
-				Lib::vsml->loadIdentity(VSMathLib::PROJECTION);
-				Lib::vsml->ortho(0, glutGet(GLUT_WINDOW_WIDTH), 0, glutGet(GLUT_WINDOW_HEIGHT), -1, 1);
-				Lib::vsml->loadIdentity(VSMathLib::VIEW);
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-				glBlendFunc(GL_ONE,GL_ZERO);
-				flare->FLARE_render(cosine);
-				glDisable(GL_BLEND);
-				Lib::vsml->popMatrix(VSMathLib::PROJECTION);
-			}
-		}
 
 	glUseProgram(shaderF.getProgramIndex());
 
@@ -807,7 +701,6 @@ void renderScene(void) {
 
 	glutSwapBuffers();
 }
-
 
 /////////////////////////////////////////////////////////////////////// CALLBACKS
 
@@ -838,19 +731,11 @@ void reshape(int w, int h) {
 		break;
 
 	case ORTHO:
-				glClearStencil(0);
-		glClear(GL_STENCIL_BUFFER_BIT);
-		glDisable(GL_STENCIL_TEST);
 		Lib::vsml->ortho(-30,30,-30,30,-30,30);
-
 		break;
 
 	case MOBILE:
-				glClearStencil(0);
-		glClear(GL_STENCIL_BUFFER_BIT);
-		glDisable(GL_STENCIL_TEST);
 		Lib::vsml->perspective(45.0f, ratio, 1.0f, 100.0f);
-
 		break;
 
 	}
@@ -865,36 +750,6 @@ void restartGame(){
 		vsfl.prepareSentence(points, "Points: " + std::to_string(totalPoints));
 		gameOver = false;}
 
-}
-
-void initParticles(void)
-{
- GLfloat v, theta, phi;
- int i;
-
- for(i=0; i<MAX_PARTICULAS; i++)
-    {
-	particles[i] = Particle(0,5,0);
-	particles[i].getParticle()->setTexture(testParticle._iTex, testParticle._texID, GL_TEXTURE_2D);
-	v = 0.8*frand()+0.2;
-    phi = frand()*M_PI;
-    theta = 2.0*frand()*M_PI;
-    particles[i].vx = v * cos(theta) * sin(phi);
-    particles[i].vy = v * cos(phi);
-    particles[i].vz = v * sin(theta) * sin(phi);
-	particles[i].ax =  0.1f; /* simular um pouco de vento */
-    particles[i].ay = -0.15f; /* simular a aceleração da gravidade */
-    particles[i].az =  0.0f;
-	
-	/* tom amarelado que vai ser multiplicado pela textura que varia entre branco e preto */
-	particles[i].r = 0.882f;
-	particles[i].g = 0.552f;	
-	particles[i].b = 0.211f;
-
-	particles[i].life = 1.0f;		/* vida inicial */                
-	particles[i].fade = 0.005f;	    /* step de decréscimo da vida para cada iteração */
-	particles[i].draw();
-	}
 }
 // ------------------------------------------------------------
 //
@@ -964,14 +819,6 @@ void processKeys(unsigned char key, int xx, int yy)
 	case 'r':
 		restartGame();
 		break;
-	case 'i':
-	case 'I':
-		initParticles();
-		break;
-	case 'y':
-	case 'Y':
-		flareOn = !flareOn;
-		break;
 	}
 
 	//  uncomment this if not using an idle func
@@ -1011,19 +858,14 @@ void keyboardUp(unsigned char key, int xx, int yy)
 //
 // Mouse Events
 //
-// Mouse handling.
-int     nButton = 0;
-int     xMouse = 0, yMouse = 0;
-
 void mouseButton(int button, int state, int xx, int yy)
 {
 	// start tracking the mouse
 	if (state == GLUT_DOWN)  {
 		startX = xx;
 		startY = yy;
-		if (button == GLUT_LEFT_BUTTON){
+		if (button == GLUT_LEFT_BUTTON)
 			tracking = 1;
-			camera_moving = true;}
 		else if (button == GLUT_RIGHT_BUTTON)
 			tracking = 2;
 	}
@@ -1031,7 +873,6 @@ void mouseButton(int button, int state, int xx, int yy)
 	//stop tracking the mouse
 	else if (state == GLUT_UP) {
 		if (tracking == 1) {
-			camera_moving = false;
 			alpha -= (xx - startX);
 			beta += (yy - startY);
 		}
@@ -1053,13 +894,6 @@ void mouseMove(int xx, int yy)
 
 	deltaX =  - xx + startX;
 	deltaY =    yy - startY;
-
-		// left mouse button: move camera
-	if (camera_moving) {
-		lookat_X = deltaX;
-		lookat_Y = deltaY;
-		flare->FLARE_position(xx, yy);
-	}
 
 	// left mouse button: move camera
 	if (tracking == 1) {
@@ -1085,33 +919,8 @@ void mouseMove(int xx, int yy)
 		frog->move(-xx/30.0f, 0, -yy/30.0f);
 	}
 
-
 }
 
-
-
-void iterate(int value)
-{
-	int i;
-	float h; 
-
-	/* Método de Euler de integração de eq. diferenciais ordinárias 
-		h representa o step de tempo; dv/dt = a; dx/dt = v; e conhecem-se os valores iniciais de x e v */
-
-	h=0.125f;
-	for (i=0; i<MAX_PARTICULAS; i++)
-	{
-		particles[i].x += (h*particles[i].vx);
-		particles[i].y += (h*particles[i].vy);
-		particles[i].z += (h*particles[i].vz);
-		particles[i].vx += (h*particles[i].ax);
-		particles[i].vy += (h*particles[i].ay);
-		particles[i].vz += (h*particles[i].az);
-		particles[i].life -= particles[i].fade;
-	}
- glutPostRedisplay();
- glutTimerFunc(33,iterate,1);
-}
 
 /////////////////////////////////////////////////////////////////////// SETUP
 
@@ -1174,7 +983,7 @@ void setupGLEW() {
 void setupGLUT(int argc, char* argv[])
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA|GLUT_MULTISAMPLE|GLUT_ALPHA);
+	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA|GLUT_MULTISAMPLE);
 
 	glutInitContextVersion (3, 3);
 	glutInitContextProfile (GLUT_CORE_PROFILE );
@@ -1202,9 +1011,6 @@ void initVSL() {
 
 void initShapes(){
 
-	tree = new Billboard(-20,0,-3);
-	tree->draw();
-
 	frog = new Frog(frogSpeed);
 	frog->draw();
 
@@ -1222,8 +1028,6 @@ void initShapes(){
 	upperRiverside = new Riverside(-30, -1, 25);
 	upperRiverside->draw();
 
-	testParticle = Particle(true);
-	flare = new Flare();
 }
 
 void initFonts(){
@@ -1268,11 +1072,8 @@ void PressEnterToContinue()
 int main(int argc, char* argv[])
 {
 	init(argc, argv);
-	glutTimerFunc(33,iterate,1);
 
 	glutMainLoop();	
-
-
 	PressEnterToContinue();
 }
 

@@ -7,10 +7,11 @@
 #define ORIG_POS_Y 0
 #define ORIG_POS_Z -28
 
+static const float FROG_BODY_RADIUS = ROADLANE_WIDTH/3.0;
+static const float FROG_EYE_RADIUS = 0.5 * FROG_BODY_RADIUS;
+static const float FROG_IRIS_RADIUS = 0.3 * FROG_EYE_RADIUS;
+
 class Frog : public DynamicObject {
-private:
-    VSResSurfRevLib *_frogHead, *_frogBody;
-    float bodyPartColor[4];
 public:
 	Frog(float *speed);
 	~Frog();

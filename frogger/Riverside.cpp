@@ -1,23 +1,20 @@
 #include "Riverside.h"
 #include "Lib.h"
 
-Riverside::Riverside(float x, float y, float z) : StaticObject(x, y, z) {
-    float colorComponents[3][4] = {
-        {36.0/255.0, 181.0/255.0, 89.0/255.0, 1.0}, //ambient component
-        {65.0/255.0, 204.0/255.0, 116.0/255.0, 1.0}, //dffuse component
-        {35.0/255.0, 222.0/255.0, 104.0/255.0, 1.0} //specular component
-    };
-    float shininess = 5.0;
+Riverside::Riverside(float x, float y, float z) : StaticObject() {
+    //(float* color, float shininess, float *pos, float *size)
+    float auxAbsPos[XYZ] = {x, y, z};
+    float auxSize[XYZ] = {BOARD_LENGTH, 1.0, RIVERSIDE_WIDTH};
+    float auxColor[RGBA] = {36.0/255.0, 181.0/255.0, 89.0/255.0, 1.0};
 
-    setBaseColor(AMBIENT_COMP, colorComponents[AMBIENT_COMP]);
-    setBaseColor(DIFFUSE_COMP, colorComponents[DIFFUSE_COMP]);
-    setBaseColor(SPECULAR_COMP, colorComponents[SPECULAR_COMP]);
-    setShininess(shininess);
+    setPosition(auxAbsPos);
+    _shininess = 5.0;
+    setSize(auxSize);
+    setColor(auxColor);
 
-    setPosition(x, y, z);
-    setSize(60.0, 1.0, 5.0);
-
-	updateBoundingBox();
+    getBody()->addCubicPart(getColor(), _shininess, _sizeCoeficient,
+        scenarioDefaultRelativePos, scenarioDefaultRotAngle, 
+        scenarioDefaultRotAxis);
 }
 
 void Riverside::draw() {

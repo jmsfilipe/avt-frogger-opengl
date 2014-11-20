@@ -9,8 +9,6 @@ class SphericalBodyPart : public BodyPart {
 public:
     SphericalBodyPart(float *color, float shininess, float *size,
         float *pos, float *rot);
-    SphericalBodyPart(float *ambColor, float *diffColor, float *specColor,
-        float shininess, float *size, float *pos, float *rot);
     ~SphericalBodyPart();
 
     float getRadius();

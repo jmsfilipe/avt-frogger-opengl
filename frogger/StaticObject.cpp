@@ -1,46 +1,55 @@
 #include "StaticObject.h"
 
-StaticObject::StaticObject() : GameObject(1) {}
+StaticObject::StaticObject() : GameObject() {
+    scenarioDefaultRelativePos[X] = 0.0;
+    scenarioDefaultRelativePos[Y] = 0.0;
+    scenarioDefaultRelativePos[Z] = 0.0;
+
+    scenarioDefaultRotAngle = 0.0;
+    scenarioDefaultRotAxis[X] = 1.0;
+    scenarioDefaultRotAxis[Y] = 0.0;
+    scenarioDefaultRotAxis[Z] = 0.0;
+}
 
 StaticObject::~StaticObject() {}
 
-StaticObject::StaticObject(float x, float y, float z) : GameObject(1) {
-    _position[0] = x;
-    _position[1] = y;
-    _position[2] = z;
+void StaticObject::setSize(float *dimensions) {
+    _sizeCoeficient[X] = dimensions[X];
+    _sizeCoeficient[Y] = dimensions[Y];
+    _sizeCoeficient[Z] = dimensions[Z];
 }
 
-void StaticObject::setSize(float x, float y, float z) {
-    _sizeCoeficient[0] = x;
-    _sizeCoeficient[1] = y;
-    _sizeCoeficient[2] = z;
+float StaticObject::getSize(int dimension) {
+    return _sizeCoeficient[dimension];
+}
+
+float *StaticObject::getColor() {
+    return _color;
+}
+
+void StaticObject::setColor(float *color) {
+    _color[R] = color[R];
+    _color[G] = color[G];
+    _color[B] = color[B];
+    _color[A] = color[A];
 }
 
 
-float StaticObject::getSize(int pos) {
-    return _sizeCoeficient[pos];
+
+void StaticObject::setTexture(int i, std::string path) {
+	_iTex=i;
+	_texPath = path;
 }
 
 void StaticObject::draw() {
-    Part *body = getPart(SCENARIO);
-    body->createCube();
-	if(_texPath != "")
-	body->addTexture(_iTex, _texPath);
-	body->setMaterialBlockName("Materials");
-    body->setColor(VSResourceLib::DIFFUSE, _diffColor);
-	body->setColor(VSResourceLib::AMBIENT, _ambColor);
-    body->setColor(VSResourceLib::SPECULAR, _specColor);
-    body->setColor(VSResourceLib::SHININESS, _shininess);
+    getBody()->draw();
 }
 
 void StaticObject::update() {
     Lib::vsml->pushMatrix(VSMathLib::MODEL);
     
-    //transformations
     Lib::vsml->translate(_position[X], _position[Y], _position[Z]);
-    Lib::vsml->scale(getSize(X), getSize(Y), getSize(Z));
-    Lib::vsml->translate(0, 0, 0);
+    getBody()->update();
 
-    getPart(SCENARIO)->render();
     Lib::vsml->popMatrix(VSMathLib::MODEL);
 }

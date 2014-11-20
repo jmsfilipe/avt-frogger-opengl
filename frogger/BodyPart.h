@@ -7,10 +7,10 @@ class BodyPart {
 private:
     VSResSurfRevLib *_vsSurfRev;
 
-    float *_ambColor, *_diffColor, *_specColor, *_shininess;
-    float *_size, //x, y, z but can be read as radius, height, z
-        *_position,
-        *_rotation;//4 positions: angle, x,y,z
+    float _ambColor[RGBA], _diffColor[RGBA], _specColor[RGBA], _shininess[1];
+    float _size[XYZ], //x, y, z but can be read as radius, height, z
+        _position[XYZ],
+        _rotation[AXYZ];//4 positions: angle, x,y,z
 
 protected:
     static const int _sides = 10;
@@ -18,9 +18,6 @@ protected:
 public:
     BodyPart(float *color, float shininess, float *size, 
         float *position, float *rotation);
-
-    BodyPart(float *ambColor, float *diffColor, float *specColor, 
-        float shininess, float *size, float *position, float *rotation);
 
     ~BodyPart(void);
 
@@ -52,11 +49,6 @@ public:
      */
     void setEstimatedColor(ColorProperty component, float *baseColor);
 
-    /** Allocates due space for a rgba color array and sets the values
-     * based on the given color
-     */
-    void createColor(float *orig, float *newColor);
-
     /** Sets the rgba values based on the given color
      */
     void setColor(float *orig, float *newColor);
@@ -64,14 +56,9 @@ public:
     void brightenColor(float *orig, float *newColor, 
         float brighteningFactor);
 
-    /** Allocates due space for a XYZ array and sets the value to 
-     * the one given as argument
-     */
-    void createDimensions(float *orig, float *dimensions);
-
     void setDimensions(float *orig, float *dimensions);
 
-    void createRotation(float *rotation);
+    void changeSize(float *newSize);
 
     void setRotation(float *rotation);
 };

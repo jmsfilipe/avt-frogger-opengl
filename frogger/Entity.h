@@ -5,10 +5,10 @@
 
 class Entity {
 protected:
-	float _position[3]; //TODO:VEC3
+	float _position[XYZ];
 public:
 	Entity();
 	float *getPosition();
-	void setPosition(float *pos); //TODO:VEC3
+	void setPosition(float *pos);
 	void setPosition(float x, float y, float z);
 };

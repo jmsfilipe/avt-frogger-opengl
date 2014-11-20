@@ -8,7 +8,7 @@
 #include <GL/freeglut.h>
 #pragma comment(lib, "glew32.lib")
 
-#define CAPTION "Exercise 1"
+#define CAPTION "Frogger AVT"
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 768
 
@@ -26,16 +26,11 @@ unsigned int FrameCount = 0;
 #include "Road.h"
 #include "River.h"
 #include "Riverside.h"
-#include "Billboard.h"
 #include "LightSource.h"
 #include "vsFontLib.h"
-#include "Particle.h"
-#include "Flare.h"
 
 #define OBJS_PER_ROW 3
-#define frand()			((float)rand()/RAND_MAX)
-#define M_PI			3.14159265
-#define MAX_PARTICULAS  100
+
 #define TIMERMSECS 60
 
 #define LIFES 5
@@ -101,7 +96,6 @@ Roadside *bottomRoadside, *upperRoadside;
 Road *road;
 River *river;
 Riverside *upperRiverside;
-Billboard *tree;
 
 //NIGHT MODE
 int _spotLightOn = 0, _directionalLightOn = 0, _pointLightOn = 0;
@@ -113,18 +107,3 @@ GLint YES = 1;
 GLint NO = 0;
 
 float eyeDirection[3];
-
-float cameraPosition[3];
-float lookat[3] = {0,0,-1};
-float angleCosine = 2;
-float angleCosine2 = 2;
-float upaux[3] = {0,0,0};
-float upaux2[3] = {0,0,0};
-
-Particle particles[MAX_PARTICULAS];
-Particle testParticle;
-Flare *flare;
-bool camera_moving = false;
-float lookat_X;
-float lookat_Y;
-bool flareOn = false;

@@ -8,8 +8,6 @@ class CylindricalBodyPart : public BodyPart {
 public:
     CylindricalBodyPart(float *color, float shininess, float *size,
         float *pos, float *rot);
-    CylindricalBodyPart(float *ambColor, float *diffColor, float *specColor,
-        float shininess, float *size, float *pos, float *rot);
     ~CylindricalBodyPart(void);
 
     void draw();

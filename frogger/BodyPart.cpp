@@ -9,29 +9,11 @@ BodyPart::BodyPart(float *color, float shininess, float *size,
     setEstimatedColor(ColorProperty::DIFFUSE, color);
     setEstimatedColor(ColorProperty::SPECULAR, color);
 
-    _shininess = new float[1]();
     _shininess[0] = shininess;
 
-    createDimensions(_size, size);
-    createDimensions(_position, position);
-    createDimensions(_rotation, rotation);
-}
-
-BodyPart::BodyPart(float *ambColor, float *diffColor, float *specColor, 
-                   float shininess, float *size, float *position, 
-                   float *rotation) {
-    _vsSurfRev = new VSResSurfRevLib();
-
-    createColor(_ambColor, ambColor);
-    createColor(_diffColor, diffColor);
-    createColor(_specColor, specColor);
-
-    _shininess = new float[1]();
-    _shininess[0] = shininess;
-
-    createDimensions(_size, size);
-    createDimensions(_position, position);
-    createDimensions(_rotation, rotation);
+    setDimensions(_size, size);
+    setDimensions(_position, position);
+    setRotation(rotation);
 }
 
 BodyPart::~BodyPart(void) { }
@@ -85,15 +67,15 @@ void BodyPart::setEstimatedColor(ColorProperty component, float *baseColor) {
     switch (component)
     {
     case ColorProperty::AMBIENT:
-        factor = 0;
         auxColor = _ambColor;
+        return;
         break;
     case ColorProperty::DIFFUSE:
-        factor = 1;
+        factor = 0.1;
         auxColor = _diffColor;
         break;
     case ColorProperty::SPECULAR:
-        factor = 2.5;
+        factor = 0.25;
         auxColor = _specColor;
         break;
     default:
@@ -101,14 +83,8 @@ void BodyPart::setEstimatedColor(ColorProperty component, float *baseColor) {
         break;
     }
 
-    brightenColor(auxColor, baseColor, 1.0 + 0.1*factor);
+    brightenColor(auxColor, baseColor, 1.0 + factor);
 
-}
-
-void BodyPart::createColor(float *orig, float *newColor) {
-    orig = new float[RGBA]();
-
-    setColor(orig, newColor);
 }
 
 void BodyPart::setColor(float *orig, float *newColor) {
@@ -121,20 +97,14 @@ void BodyPart::setColor(float *orig, float *newColor) {
 void BodyPart::brightenColor(float *orig, float *newColor, 
                              float brighteningFactor) {
 
-    if(orig == nullptr)
-        createColor(orig, newColor);
-    else
+    if(orig != NULL)
         setColor(orig, newColor);
+    else
+        return;
 
     orig[R] *= brighteningFactor;
     orig[G] *= brighteningFactor;
     orig[B] *= brighteningFactor;
-}
-
-void BodyPart::createDimensions(float *orig, float *newDimensions) {
-    orig = new float[SpatialProperty::XYZ]();
-
-    setDimensions(orig, newDimensions);
 }
 
 void BodyPart::setDimensions(float *orig, float *newDimensions) {
@@ -143,10 +113,10 @@ void BodyPart::setDimensions(float *orig, float *newDimensions) {
     orig[SpatialProperty::Z] = newDimensions[SpatialProperty::Z];
 }
 
-void BodyPart::createRotation(float *newRotation) {
-    _rotation = new float[SpatialProperty::AXYZ]();
-
-    setRotation(newRotation);
+void BodyPart::changeSize(float *newSize) {
+    _size[X] = newSize[X];
+    _size[Y] = newSize[Y];
+    _size[Z] = newSize[Z];
 }
 
 void BodyPart::setRotation(float *newRotation) {
