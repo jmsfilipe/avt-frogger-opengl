@@ -147,7 +147,7 @@ void Bus::update() {
 
 	//back wheels
 	Lib::vsml->pushMatrix(VSMathLib::MODEL);
-	Lib::vsml->translate(BUS_HEIGHT/6.0 + (BUS_HEIGHT/2.0) + BUS_BODYLENGTH-0.2, 
+	Lib::vsml->translate(BUS_HEIGHT/6.0 + (BUS_HEIGHT/2.0) + BUS_BODYLENGTH-(BUS_HEIGHT/6.0)-0.2, 
 		BUS_HEIGHT/6.0, 
 		MARGINAL_SPACE + ((BUS_WIDTH - 2*MARGINAL_SPACE)/2.0));
     Lib::vsml->rotate(90.0, 1, 0, 0);
