@@ -33,3 +33,7 @@ void GameObject::updateBoundingBox() {
 bool GameObject::collide(BoundingBox b){
 	return _box.AABBtoAABB(b);
 }
+void GameObject::setTexture(int i, std::string path) {
+	_iTex=i;
+	_texPath = path;
+}

@@ -11,10 +11,10 @@ Billboard::Billboard(float x, float y, float z) : DynamicObject() {
     };
     float shininess = 0;
 
-    setBaseColor(AMBIENT_COMP, colorComponents[AMBIENT_COMP]);
+    /*setBaseColor(AMBIENT_COMP, colorComponents[AMBIENT_COMP]);
     setBaseColor(DIFFUSE_COMP, colorComponents[DIFFUSE_COMP]);
     setBaseColor(SPECULAR_COMP, colorComponents[SPECULAR_COMP]);
-    setShininess(shininess);
+    setShininess(shininess);*/
 	setTexture(0, "textures/tree.png");
 
     setPosition(x, y, z);
@@ -29,11 +29,11 @@ void Billboard::draw() {
 	_billboard->createBillboard();
 	if(_texPath != "")
 		_billboard->addTexture(_iTex, _texPath);
-	_billboard->setMaterialBlockName("Materials");
+	/*_billboard->setMaterialBlockName("Materials");
     _billboard->setColor(VSResourceLib::DIFFUSE, _diffColor);
 	_billboard->setColor(VSResourceLib::AMBIENT, _ambColor);
     _billboard->setColor(VSResourceLib::SPECULAR, _specColor);
-    _billboard->setColor(VSResourceLib::SHININESS, _shininess);
+    _billboard->setColor(VSResourceLib::SHININESS, _shininess);*/
 }
 
 

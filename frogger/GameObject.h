@@ -9,6 +9,10 @@ typedef std::vector<Part*> Parts;
 
 class GameObject : public Entity {
     Body *_body;
+	public:
+	int _iTex;
+	std::string _texPath;
+	int _texID;
 protected:
 	BoundingBox _box;
 public:
@@ -22,4 +26,5 @@ public:
 
 	bool collide(BoundingBox b);
 	virtual void updateBoundingBox();
+		void setTexture(int i, std::string path);
 };
